@@ -1,0 +1,38 @@
+{
+  "membersInfo":[
+      {
+        "email" : "juseong97@gmail.com",
+        "password" : "",
+        "name" : "김주성",
+        "addr" : "대전 유성구 원신흥동 192로 14번길",
+        "useYn" : "Y",
+        "state" : true,
+        "expiredDt" : "2026-06-21 21:00",
+        "role" : []
+      },
+      {
+        "email" : "admin@gmail.com",
+        "password" : "",
+        "name" : "관리자",
+        "addr" : "대전 유성구 원신흥동 192로 15번길",
+        "useYn" : "Y",
+        "state" : true,
+        "expiredDt" : "2026-06-29 21:00",
+        "role" : []
+      },
+      {
+        "email" : "admin2@gmail.com",
+        "password" : "",
+        "name" : "관리자2",
+        "addr" : "대전 유성구 원신흥동 192로 16번길",
+        "useYn" : "Y",
+        "state" : false,
+        "expiredDt" : "2026-06-21 21:00",
+        "role" : []
+      }
+  ],
+  "menuList" : {
+
+  }
+
+}
