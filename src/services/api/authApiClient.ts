@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//fetch로 변경
 export const authApiClient = () => {
     const BASE_URL = "http://localhost:3001/";
 

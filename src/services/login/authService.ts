@@ -1,6 +1,6 @@
-import {loginResolver} from "@/hooks/loginResolver.ts";
+import {loginResolver} from "@/services/login/loginResolver.ts";
 import type {Member} from "@/types/member/member.ts";
-import {publicApiClient} from "@/api/publicApiClient.ts";
+import {publicApiClient} from "@/services/api/publicApiClient.ts";
 
 
 const authService = () =>{
