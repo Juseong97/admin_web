@@ -1,24 +1,16 @@
 import {loginResolver} from "@/services/login/loginResolver.ts";
 import type {Member} from "@/types/member/member.ts";
-import {publicApiClient} from "@/services/api/publicApiClient.ts";
 
 
-const authService = () =>{
+const authService = () => {
 
     /*로그인*/
-    const login = async function (users : Member) {
+    const login = async function (users: Member) {
         const checkLoginReq = loginResolver(users);
-        if(checkLoginReq?.type ==='success'){
-            const membersList = await publicApiClient().get("/membersInfo")
-                .then((response) => {
-                    console.log("통신 성공 : ", response);
-                    return response;
-                }).catch((error) => {
-                    console.log("에러 발생 : ", error);
-                    return
-                });
-
-            console.log(membersList);
+        if (checkLoginReq?.type === 'success') {
+            // let membersList: any;
+            // membersList = publicApiClient().get("/membersInfo");
+            // console.log(membersList);
         }
         return {};
     }
@@ -51,7 +43,6 @@ const authService = () =>{
     const validateToken = function () {
 
     }
-
 
 
     return {
