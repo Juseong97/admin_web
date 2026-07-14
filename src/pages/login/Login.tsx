@@ -1,16 +1,7 @@
-import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
+import {Button} from "@/components/ui/button"
+import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
 
 export default function Register() {
 
@@ -44,7 +35,8 @@ export default function Register() {
                 </form>
             </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full" onSubmit={(e)=> {
+                    }}>
                         로그인
                     </Button>
                     <Button variant="outline" className="w-full">

@@ -1,5 +1,6 @@
 import {loginResolver} from "@/services/login/loginResolver.ts";
 import type {Member} from "@/types/member/member.ts";
+import { publicApiClient, type publicRequestEntity } from "@/services/api/publicApiClient.ts";
 
 
 const authService = () => {
@@ -8,9 +9,16 @@ const authService = () => {
     const login = async function (users: Member) {
         const checkLoginReq = loginResolver(users);
         if (checkLoginReq?.type === 'success') {
-            // let membersList: any;
-            // membersList = publicApiClient().get("/membersInfo");
-            // console.log(membersList);
+            const request : publicRequestEntity = {
+                reqUrl : '/mebersInfo',
+                body : {
+                    email : users.email,
+                    password : users.password
+                },
+                queryString : {email : users.email}
+            }
+            const response = await publicApiClient.post(request);
+            alert(response);
         }
         return {};
     }

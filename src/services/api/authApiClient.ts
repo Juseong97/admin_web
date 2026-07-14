@@ -5,8 +5,8 @@ import {isEmptyFile} from "@/utils/cmmnUtils.ts";
 const BASE_URL = 'http://localhost:3001/';
 const DEFAULT_TIMEOUT = 10000;
 
-/*인증을 받지 않는 Api 통신의 클라이언트*/
-interface requestEntity {
+/*인증이 필요한 Api 통신의 클라이언트*/
+export interface authRequestEntity {
     reqUrl : string
     queryString? : Record<string, unknown>,
     body? : unknown,
@@ -18,7 +18,7 @@ interface requestEntity {
 
 /*인증 token이 필요한 경우의 fetch*/
 export const authApiClient = {
-    get : async (req : requestEntity) => {
+    get : async (req : authRequestEntity) => {
         // 로딩바
         // if(req.loadingBarYn === 'Y'){
         //     function showLoadingBar (){
@@ -59,11 +59,20 @@ export const authApiClient = {
         try {
             const response = await fetch(`${BASE_URL}${req.reqUrl}${bindingQuery}`,reqOptions);
             return await apiErrorHandler(response);
+        } catch (error){
+            if(error instanceof Error) {
+                throw new Error(error.message, {
+                    cause : error
+                })
+            }
+
+            throw new Error("알수 없는 에러가 발생",{cause : error});
         } finally {
             clearTimeout(timeOutId);
         }
     },
-    post : async (req : requestEntity) => {
+    // try에서 return문에 await를 쓰지 않으면 throw 한 Error들이 catch에 들어가지 않는다
+    post : async (req : authRequestEntity) => {
         const controller = new AbortController();
         const timeOutId = setTimeout(() => controller.abort(),DEFAULT_TIMEOUT);
         const jToken = userTokenHandler.getToken();
@@ -82,11 +91,19 @@ export const authApiClient = {
         try {
             const response = await fetch(`${BASE_URL}${req.reqUrl}`,reqOptions);
             return await apiErrorHandler(response);
+        } catch (error){
+            if(error instanceof Error) {
+                throw new Error(error.message, {
+                    cause : error
+                })
+            }
+
+            throw new Error("알수 없는 에러가 발생",{cause : error});
         } finally {
             clearTimeout(timeOutId);
         }
     },
-    put : async (req : requestEntity) => {
+    put : async (req : authRequestEntity) => {
         const controller = new AbortController();
         const timeOutId = setTimeout(() => controller.abort(),DEFAULT_TIMEOUT);
 
@@ -104,11 +121,19 @@ export const authApiClient = {
         try {
             const response = await fetch(`${BASE_URL}${req.reqUrl}`,reqOptions);
             return await apiErrorHandler(response);
+        } catch (error){
+            if(error instanceof Error) {
+                throw new Error(error.message, {
+                    cause : error
+                })
+            }
+
+            throw new Error("알수 없는 에러가 발생",{cause : error});
         } finally {
             clearTimeout(timeOutId);
         }
     },
-    delete : async (req : requestEntity) => {
+    delete : async (req : authRequestEntity) => {
         const controller = new AbortController();
         const timeOutId = setTimeout(() => controller.abort(),DEFAULT_TIMEOUT);
 
@@ -123,16 +148,24 @@ export const authApiClient = {
             },
             signal : controller.signal
         }
-        // TODO : apiErrorHandler await 생략 가능한 이유
+
         try {
             const response = await fetch(`${BASE_URL}${req.reqUrl}`,reqOptions);
             return await apiErrorHandler(response);
+        } catch (error){
+            if(error instanceof Error) {
+                throw new Error(error.message, {
+                    cause : error
+                })
+            }
+
+            throw new Error("알수 없는 에러가 발생",{cause : error});
         } finally {
             clearTimeout(timeOutId);
         }
 
     },
-    postFile : async (req : requestEntity) => {
+    postFile : async (req : authRequestEntity) => {
         const controller = new AbortController();
         const timeOutId = setTimeout(()=> controller.abort(), (DEFAULT_TIMEOUT + 10000));
         const hasBody = req.body !== undefined && req.body !== null;
@@ -155,6 +188,14 @@ export const authApiClient = {
         try {
             const response = await fetch(`${BASE_URL}${req.reqUrl}`, reqOptions);
             return await apiErrorHandler(response);
+        } catch (error){
+            if(error instanceof Error) {
+                throw new Error(error.message, {
+                    cause : error
+                })
+            }
+
+            throw new Error("알수 없는 에러가 발생",{cause : error});
         } finally {
             clearTimeout(timeOutId);
         }

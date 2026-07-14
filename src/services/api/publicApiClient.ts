@@ -1,7 +1,7 @@
 import {apiErrorHandler} from '@/services/api/apiErrorHandler.ts';
 
 /*인증을 받지 않는 Api 통신의 클라이언트*/
-interface requestEntity {
+export interface publicRequestEntity {
     reqUrl : string
     queryString? : Record<string, unknown>,
     body? : unknown,
@@ -13,7 +13,7 @@ const DEFAULT_TIMEOUT = 10000;
 
 /*로그인 토큰이 필요하지 않는 fetch 기능*/
 export const publicApiClient = {
-    get : async (req : requestEntity) => {
+    get : async (req : publicRequestEntity) => {
         //fetch는 timeout 기능이 없어서 AbortController()를 직접구현하여 사용
         const controller = new AbortController();
         const timeOutId = setTimeout(()=> controller.abort() , DEFAULT_TIMEOUT);
@@ -42,7 +42,7 @@ export const publicApiClient = {
             clearTimeout(timeOutId);
         }
     },
-    post : async (req : requestEntity) => {
+    post : async (req : publicRequestEntity) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(()=> controller.abort(),DEFAULT_TIMEOUT);
 
