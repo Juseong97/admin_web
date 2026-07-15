@@ -2,9 +2,26 @@ import {Button} from "@/components/ui/button"
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
+import {loginResolver, type ValidationResult} from "@/services/login/loginResolver.ts";
+import {useState} from "react";
+
 
 export default function Register() {
+    const [isShow , setIsShow] = useState(true);
+    const [message, setMessage] = useState('');
+    //TODO -> 로딩 관련 전역 관리 Zustand 사용하기
+    // const [isLoading, setIsLoading] = useState(true);
 
+    const handleSubmit = (event) => {
+        
+        const validationResult : ValidationResult = loginResolver({email : event.target , password : event.target });
+        if(!validationResult.type) {
+            setMessage(validationResult.message);
+            setIsShow(validationResult.type);
+        }
+
+
+    }
     return (
         <Card className="w-full max-w-lg" >
             <CardHeader>
@@ -15,11 +32,11 @@ export default function Register() {
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="email@google.com" required />
+                            <Input name="email" type="email" placeholder="email@google.com" required />
                         </div>
 
                         <div className="grid gap-2">
@@ -29,14 +46,14 @@ export default function Register() {
                                     비밀번호를 잊어버리셨습니까?
                                 </a>
                             </div>
-                            <Input id="password" type="password" placeholder="********" required />
+                            <Input name="password" type="password" placeholder="********" required />
                         </div>
                     </div>
                 </form>
             </CardContent>
+                <div style={{display : isShow ? 'block' : 'none'}}>{message}</div>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full" onSubmit={(e)=> {
-                    }}>
+                    <Button type="submit" className="w-full" value="Submit">
                         로그인
                     </Button>
                     <Button variant="outline" className="w-full">
