@@ -8,7 +8,7 @@ const authService = () => {
     /*로그인*/
     const login = async function (users: Member) {
         const checkLoginReq = loginResolver(users);
-        if (checkLoginReq?.type === 'success') {
+        if (checkLoginReq?.type) {
             const request : publicRequestEntity = {
                 reqUrl : '/mebersInfo',
                 body : {
