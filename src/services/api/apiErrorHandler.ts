@@ -1,6 +1,6 @@
 /*status 코드별 공통 핸들러 처리*/
 
-export async function apiErrorHandler(response: Response) {
+export default async function apiErrorHandler(response: Response) {
     if (!response.ok) {
         switch (response.status) {
             case 400 : //비밀번호, 아이디 맞지 않음

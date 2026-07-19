@@ -24,7 +24,7 @@ export const loginResolver = (values : LoginRequest) : ValidationResult => {
     }
 
     // 패스워드 최소 자릿수 검증
-    if (values.password.length > 7) {
+    if (values.password.length < 8) {
         return {type: false, "message": "최소 8자리 이상의 패스워드를 입력해주세요."};
     }
 

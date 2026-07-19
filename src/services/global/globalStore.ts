@@ -9,11 +9,13 @@ interface BearState {
     setShow : (state : boolean) => void
 }
 
-export const globalStore = create<BearState>((set) => ({
-        bears: 2,
+const globalStore = create<BearState>()((set) => ({
+        bears: 1,
         food: 'honey',
         isShow : false,
         feed: (food) => set(() => ({food})),
         increase : (bears) => set(()=>({bears : bears +1})),
         setShow : (state) => set(()=>({isShow : state}))
 }))
+
+export default globalStore;

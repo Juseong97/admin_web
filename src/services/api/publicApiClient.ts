@@ -1,4 +1,5 @@
-import {apiErrorHandler} from '@/services/api/apiErrorHandler.ts';
+import apiErrorHandler from '@/services/api/apiErrorHandler.ts';
+import requestWrapper from "@/services/api/requestWrapper.ts";
 
 /*인증을 받지 않는 Api 통신의 클라이언트*/
 export interface publicRequestEntity {
@@ -10,7 +11,6 @@ export interface publicRequestEntity {
 
 const BASE_URL = 'http://localhost:3001';
 const DEFAULT_TIMEOUT = 10000;
-
 /*로그인 토큰이 필요하지 않는 fetch 기능*/
 export const publicApiClient = {
     get : async (req : publicRequestEntity) => {
@@ -34,17 +34,20 @@ export const publicApiClient = {
         };
         
         try {
-            // await 쓰면 Promise 객체를 자동반환 >> (이전) fetch().then() --> await 후 then() 하면 에러 발생!
-            const response = await fetch(`${BASE_URL}${req.reqUrl}${bindingQuery}`,reqOptions);
-            return await apiErrorHandler(response); // await 생략가능
-        }  finally {
+            const response = await requestWrapper(`${BASE_URL}${req.reqUrl}${bindingQuery}`,reqOptions);
+            return await apiErrorHandler(response);
+        } catch (error){
+            if(error instanceof Error){
+                throw new Error(error.message,{cause : error});
+            }
+        } finally {
             // 로딩 컴포넌트
             clearTimeout(timeOutId);
         }
     },
     post : async (req : publicRequestEntity) => {
         const controller = new AbortController();
-        const timeoutId = setTimeout(()=> controller.abort(),DEFAULT_TIMEOUT);
+        const timeOutId = setTimeout(()=> controller.abort(),DEFAULT_TIMEOUT);
 
         const reqOptions : RequestInit = {
             ...req.options,
@@ -57,11 +60,15 @@ export const publicApiClient = {
         }
 
         try {
-            const response = await fetch(`${BASE_URL}${req.reqUrl}`, reqOptions);
+            const response = await requestWrapper(`${BASE_URL}${req.reqUrl}`, reqOptions);
             return await apiErrorHandler(response);
-        }  finally {
+        } catch (error){
+            if(error instanceof Error){
+                throw new Error(error.message,{cause : error});
+            }
+        } finally {
             // 로딩 컴포넌트
-            clearTimeout(timeoutId);
+            clearTimeout(timeOutId);
         }
     }
 }

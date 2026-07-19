@@ -2,7 +2,7 @@
   "membersInfo":[
       {
         "email" : "juseong97@gmail.com",
-        "password" : "",
+        "password" : "qwer1234!@#",
         "name" : "김주성",
         "addr" : "대전 유성구 원신흥동 192로 14번길",
         "useYn" : "Y",
@@ -12,7 +12,7 @@
       },
       {
         "email" : "admin@gmail.com",
-        "password" : "",
+        "password" : "rt413900",
         "name" : "관리자",
         "addr" : "대전 유성구 원신흥동 192로 15번길",
         "useYn" : "Y",

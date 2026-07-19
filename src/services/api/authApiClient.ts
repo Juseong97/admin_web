@@ -1,5 +1,5 @@
-import {userTokenHandler} from './userTokenHandler';
-import {apiErrorHandler} from '@/services/api/apiErrorHandler.ts';
+import userTokenHandler from './userTokenHandler';
+import apiErrorHandler from '@/services/api/apiErrorHandler.ts';
 import {isEmptyFile} from "@/utils/cmmnUtils.ts";
 
 const BASE_URL = 'http://localhost:3001/';
@@ -65,7 +65,6 @@ export const authApiClient = {
                     cause : error
                 })
             }
-
             throw new Error("알수 없는 에러가 발생",{cause : error});
         } finally {
             clearTimeout(timeOutId);

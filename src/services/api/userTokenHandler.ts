@@ -1,7 +1,7 @@
 
 const ACCESS_TOKEN_KEY = 'jwt_token';
 
-export const userTokenHandler = {
+const userTokenHandler = {
     getToken : () : string | null => {
         if(typeof window === 'undefined') return null;
       return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -15,7 +15,8 @@ export const userTokenHandler = {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
     },
     hasToken : () : boolean => {
-        // return Boolean(userTokenHandler.getToken());
         return !!(userTokenHandler.getToken());
     }
 }
+
+export default userTokenHandler;

@@ -1,16 +1,15 @@
 import './App.css'
+import '@/assets/css/common.css'
+
 import AppRoutes from "@/routes/AppRoutes.tsx";
 import LoadingBar from "@/components/global/LoadingBar.tsx";
-import {globalStore} from "@/components/global/globalStore.ts";
 
 function App() {
-    const isShow = globalStore(state=> state.isShow);
-
   return (
       <>
+          <LoadingBar/>
           <div className='mainContainer'>
               <AppRoutes/>
-              <LoadingBar state={isShow}/>
           </div>
       </>
   )
