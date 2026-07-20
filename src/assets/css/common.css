@@ -1,3 +1,12 @@
+.register-container > * {
+    color: white;
+
+}
+.login-form-container .message{
+    color : red;
+    margin-left: 12px;
+}
+
 .loading-bar-container{
     display : flex;
     position : fixed;

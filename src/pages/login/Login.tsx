@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button"
-import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {loginResolver, type ValidationResult} from "@/services/login/loginResolver.ts";
@@ -60,16 +60,16 @@ export default function Register() {
             })
     }
     return (
-        <Card className="w-full max-w-lg">
+        <Card className="w-full max-w-lg login-form-container">
             <form onSubmit={handleSubmit}>
-                <CardHeader>
+                <CardHeader className='mb-2 gap-1'>
                     <CardTitle>계정 로그인</CardTitle>
                     <CardDescription>이메일과 패스워드를 입력해주세요.</CardDescription>
-                    <CardAction>
-                        <Button variant="link">Sign Up</Button>
-                    </CardAction>
+                    {/*<CardAction>*/}
+                    {/*    <Button variant="link">Sign Up</Button>*/}
+                    {/*</CardAction>*/}
                 </CardHeader>
-                <CardContent>
+                <CardContent className='mb-3'>
                     <div className="flex flex-col gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
@@ -87,7 +87,7 @@ export default function Register() {
                         </div>
                     </div>
                 </CardContent>
-                <div style={{display: isMsgShow ? 'block' : 'none'}}>{message}</div>
+                <div className='ml-5 mb-2 text-red-600' style={{visibility: isMsgShow ? 'visible' : 'hidden'}}>{message}</div>
                 <CardFooter className="flex-col gap-2">
                     <Button type="submit" className="w-full">
                         로그인
