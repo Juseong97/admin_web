@@ -1,7 +1,7 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import LoginLayout from "@/layouts/LoginLayout.tsx";
 import Login from "@/pages/login/Login.tsx";
-import Register from "@/pages/login/Register.tsx";
+import SignUp from "@/pages/login/SignUp.tsx";
 import MainPage from "@/pages/main/MainPage.tsx";
 
 export default function AppRoutes(){
@@ -13,7 +13,7 @@ export default function AppRoutes(){
                     {/*로그인 페이지*/}
                     <Route path="/login" element={<Login />}/>
                     {/*회원가입 페이지*/}
-                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/register" element={<SignUp/>}/>
                     {/*메인페이지*/}
                     <Route path="/main" element={<MainPage/>}/>
                 </Route>

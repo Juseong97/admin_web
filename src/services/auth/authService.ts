@@ -1,4 +1,4 @@
-import {loginResolver} from "@/services/login/loginResolver.ts";
+import {loginResolver} from "@/services/auth/loginResolver.ts";
 import type {Member} from "@/types/member/member.ts";
 import { publicApiClient, type publicRequestEntity } from "@/services/api/publicApiClient.ts";
 

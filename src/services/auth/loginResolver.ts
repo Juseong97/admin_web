@@ -1,0 +1,28 @@
+import type {LoginRequest} from "@/services/auth/auth.ts";
+import {checkEmailFormat, isEmpty} from "@/utils/cmmnUtils.ts";
+import type {ValidationResult} from "@/types/common/baseEntity.ts";
+
+// 로그인 검증
+export const loginResolver = (values : LoginRequest) : ValidationResult => {
+    // 이메일 빈값 검증
+    if (isEmpty(values.email)) {
+        return {type: false, "message": "이메일이 입력 되지 않았습니다.", target : 'email'};
+    }
+
+    // 이메일 포맷 검증
+    if (!checkEmailFormat(values.email)) {
+        return {type: false, "message": "이메일 양식이 옳바르지 않습니다.", target : 'email'};
+    }
+
+    // 패스워드 빈값 검증
+    if (isEmpty(values.password)) {
+        return {type: false, "message": "패스워드가 입력 되지 않았습니다.", target : 'password'};
+    }
+
+    // 패스워드 최소 자릿수 검증
+    if (values.password.length < 8) {
+        return {type: false, "message": "최소 8자리 이상의 패스워드를 입력해주세요.", target : 'password'};
+    }
+
+    return {type: true, "message": "", target : ''};
+}

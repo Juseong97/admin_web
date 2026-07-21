@@ -2,12 +2,13 @@ import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
-import {loginResolver, type ValidationResult} from "@/services/login/loginResolver.ts";
+import {loginResolver} from "@/services/auth/loginResolver.ts";
 import * as React from "react";
 import {useState} from "react";
 import {publicApiClient} from "@/services/api/publicApiClient.ts";
 import userTokenHandler from "@/services/api/userTokenHandler.ts";
 import {useNavigate} from "react-router-dom";
+import type {ValidationResult} from "@/types/common/baseEntity.ts";
 
 export default function Register() {
     const [isMsgShow, setMsgShow] = useState(false);
@@ -78,7 +79,7 @@ export default function Register() {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                <a href="/register"
+                                <a href="/src/pages/login/SignUp"
                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
                                     비밀번호를 잊어버리셨습니까?
                                 </a>
@@ -92,7 +93,7 @@ export default function Register() {
                     <Button type="submit" className="w-full">
                         로그인
                     </Button>
-                    <Button variant="outline" className="w-full" onClick={()=>navigate('/register')}>
+                    <Button type="button" variant="outline" className="w-full" onClick={()=>navigate('/register')}>
                         회원가입
                     </Button>
                 </CardFooter>
