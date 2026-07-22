@@ -1,3 +1,5 @@
+import * as React from "react";
+
 const isEmpty = (value: string | number | undefined | null ) : boolean => {
     if(typeof(value) === "string") {
         return (!value || value.trim() === "" || false);
@@ -18,8 +20,15 @@ const checkEmailFormat = (email : string) : boolean => {
     return regExp.test(email);
 }
 
+const telNumberFormatter = (event : React.InputEvent<HTMLInputElement>) : void =>{
+    const regExp = /[^0-9]$/g;
+    const inputEl = event.currentTarget;
 
-export {isEmpty,isEmptyFile,checkEmailFormat}
+    inputEl.value = inputEl.value.replaceAll(regExp,'');
+}
+
+
+export {isEmpty,isEmptyFile,checkEmailFormat, telNumberFormatter}
 
 
 

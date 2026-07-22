@@ -5,16 +5,18 @@ import {Button} from "@/components/ui/button.tsx";
 import {ArrowLeftIcon} from "lucide-react";
 import {useNavigate} from "react-router-dom";
 import * as React from "react";
-import {useRef, useState} from "react";
+import {useState} from "react";
 import type {ValidationResult} from "@/types/common/baseEntity.ts";
 import {signUpResolver} from "@/services/auth/signUpResolver.ts";
+import {telNumberFormatter} from "@/utils/cmmnUtils.ts";
 
 export default function SignUp() {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [isShow,setShow] = useState(false);
     const [requiredElementNm, setRequiredElementNm] = useState('');
-    const inputRef = useRef<HTMLInputElement>(null);
+
+    // 타이핑 시 메세지 숨김처리
     const typingDetector= () => {
         if(isShow){
             setShow(false);
@@ -22,15 +24,9 @@ export default function SignUp() {
         }
     }
 
-    // TODO : 에러 표시된 요소에 포커싱 처리
-    const focusingRef = () => {
-        alert(inputRef.current?.name);
-        inputRef.current?.focus();
-    }
-
+    //회원가입 이벤트
     const handleSubmit = (event : React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         const formData = new FormData(event.currentTarget);
         const validationResult : ValidationResult = signUpResolver({
             email : formData.get('email') as string || '',
@@ -44,12 +40,16 @@ export default function SignUp() {
 
 
         if(!validationResult.type){
+            // form안의 input 요소들의 name으로 찾아 포커싱
+            (event.currentTarget.elements.namedItem(validationResult.target) as HTMLInputElement)?.focus();
+
             setMessage(validationResult.message);
             setShow(!validationResult.type);
             setRequiredElementNm(validationResult.target);
-            focusingRef();
             return;
         }
+
+
     }
 
     return (
@@ -69,19 +69,19 @@ export default function SignUp() {
                                 <FieldLabel htmlFor={"email"}>이메일
                                     <span className="text-destructive">*</span></FieldLabel>
                                 <Input name={"email"} type={"text"} placeholder="name@example.com" maxLength={50} aria-invalid={requiredElementNm === 'email'}
-                                       onInput={typingDetector} ref={inputRef}/>
+                                       onInput={typingDetector}/>
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor={"memberId"}>아이디
                                     <span className="text-destructive">*</span> </FieldLabel>
                                 <Input name={"memberId"} type={"text"} placeholder={"아이디를 입력해주세요"} maxLength={50} aria-invalid={requiredElementNm === 'memberId'}
-                                       onInput={typingDetector} ref={inputRef}/>
+                                       onInput={typingDetector}/>
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor={"name"}>이름
                                     <span className="text-destructive">*</span> </FieldLabel>
                                 <Input name={"name"} type={"text"} placeholder={'이름을 입력해주세요'} maxLength={20} aria-invalid={requiredElementNm === 'name'}
-                                       onInput={typingDetector} ref={inputRef}/>
+                                       onInput={typingDetector}/>
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor={"addr"}>주소</FieldLabel>
@@ -89,7 +89,8 @@ export default function SignUp() {
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor={"phoneNumber"}>휴대폰번호</FieldLabel>
-                                <Input name={"phoneNumber"} type={"tel"}/>
+                                <Input name={"phoneNumber"} type={"tel"} placeholder={'- 을 제외한 숫자만 입력'} maxLength={11}
+                                    onInput={(event) => telNumberFormatter(event)}/>
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor={"password"}>비밀번호
@@ -106,12 +107,12 @@ export default function SignUp() {
                                     비밀번호를 재입력 해주세요.
                                 </FieldDescription>
                                 <Input name={"rePassword"} type={"password"} placeholder={"••••••••"} aria-invalid={requiredElementNm === 'rePassword'}
-                                       onInput={typingDetector} ref={inputRef}/>
+                                       onInput={typingDetector}/>
                             </Field>
                         </FieldGroup>
                     </FieldSet>
                 </FieldGroup>
-                <div className='ml-5 mb-2 text-red-600' style={{visibility: isShow ? 'visible' : 'hidden'}}>{message}</div>
+                <div className='m-2 text-red-600' style={{visibility: isShow ? 'visible' : 'hidden'}}>{message}</div>
                 <Button type="submit" className="w-full mt-2">
                     회원가입
                 </Button>

@@ -1,7 +1,7 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import LoginLayout from "@/layouts/LoginLayout.tsx";
-import Login from "@/pages/login/Login.tsx";
-import SignUp from "@/pages/login/SignUp.tsx";
+import Login from "@/pages/auth/Login.tsx";
+import SignUp from "@/pages/auth/SignUp.tsx";
 import MainPage from "@/pages/main/MainPage.tsx";
 
 export default function AppRoutes(){

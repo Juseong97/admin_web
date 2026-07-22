@@ -79,7 +79,7 @@ export default function Register() {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                <a href="/src/pages/login/SignUp"
+                                <a href="/src/pages/auth/SignUp"
                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
                                     비밀번호를 잊어버리셨습니까?
                                 </a>
