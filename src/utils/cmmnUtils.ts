@@ -27,8 +27,15 @@ const telNumberFormatter = (event : React.InputEvent<HTMLInputElement>) : void =
     inputEl.value = inputEl.value.replaceAll(regExp,'');
 }
 
+const formToObjectData = (formData : FormData, removeKey? : Set<string> ) : object => {
+    if(removeKey && removeKey.size > 0 ) {
+        removeKey.forEach(key => formData.delete(key));
+    }
+    return Object.fromEntries(formData);
+}
 
-export {isEmpty,isEmptyFile,checkEmailFormat, telNumberFormatter}
+
+export {isEmpty,isEmptyFile,checkEmailFormat, telNumberFormatter, formToObjectData}
 
 
 

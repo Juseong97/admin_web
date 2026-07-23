@@ -1,41 +1,51 @@
 {
-  "membersInfo":[
-      {
-        "email" : "juseong97@gmail.com",
-        "password" : "qwer1234!@#",
-        "memberId" : "juseong97",
-        "name" : "김주성",
-        "addr" : "대전 유성구 원신흥동 192로 14번길",
-        "useYn" : "Y",
-        "state" : true,
-        "expiredDt" : "2026-06-21 21:00",
-        "role" : []
-      },
-      {
-        "email" : "admin@gmail.com",
-        "password" : "rt413900",
-        "memberId" : "admin",
-        "name" : "관리자",
-        "addr" : "대전 유성구 원신흥동 192로 15번길",
-        "useYn" : "Y",
-        "state" : true,
-        "expiredDt" : "2026-06-29 21:00",
-        "role" : []
-      },
-      {
-        "email" : "admin2@gmail.com",
-        "password" : "",
-        "memberId" : "admin2",
-        "name" : "관리자2",
-        "addr" : "대전 유성구 원신흥동 192로 16번길",
-        "useYn" : "Y",
-        "state" : false,
-        "expiredDt" : "2026-06-21 21:00",
-        "role" : []
-      }
+  "membersInfo": [
+    {
+      "email": "juseong97@gmail.com",
+      "password": "qwer1234!@#",
+      "memberId": "juseong97",
+      "name": "김주성",
+      "addr": "대전 유성구 원신흥동 192로 14번길",
+      "useYn": "Y",
+      "state": true,
+      "expiredDt": "2026-06-21 21:00",
+      "role": [],
+      "id": "e2MsF-6J8ug"
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "rt413900",
+      "memberId": "admin",
+      "name": "관리자",
+      "addr": "대전 유성구 원신흥동 192로 15번길",
+      "useYn": "Y",
+      "state": true,
+      "expiredDt": "2026-06-29 21:00",
+      "role": [],
+      "id": "LpwS4y7Ex5Q"
+    },
+    {
+      "email": "admin2@gmail.com",
+      "password": "",
+      "memberId": "admin2",
+      "name": "관리자2",
+      "addr": "대전 유성구 원신흥동 192로 16번길",
+      "useYn": "Y",
+      "state": false,
+      "expiredDt": "2026-06-21 21:00",
+      "role": [],
+      "id": "bYovKfH337o"
+    },
+    {
+      "email": "vnlrlvnlrl@naver.com",
+      "memberId": "vnlrlvnlrl",
+      "name": "김주성",
+      "addr": "대전 유성구 원신흥동 575-3",
+      "phoneNumber": "01051872225",
+      "password": "qwer1234!@#",
+      "id": "JrdE4zUd9ag"
+    }
   ],
-  "menuList" : {
-
-  }
-
+  "menuList": {},
+  "$schema": "./node_modules/json-server/schema.json"
 }

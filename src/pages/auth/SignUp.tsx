@@ -8,9 +8,10 @@ import * as React from "react";
 import {useRef, useState} from "react";
 import type {ValidationResult} from "@/types/common/baseEntity.ts";
 import {signUpResolver} from "@/services/auth/signUpResolver.ts";
-import {checkEmailFormat, isEmpty, telNumberFormatter} from "@/utils/cmmnUtils.ts";
+import {checkEmailFormat, formToObjectData, isEmpty, telNumberFormatter} from "@/utils/cmmnUtils.ts";
 import {publicApiClient} from "@/services/api/publicApiClient.ts";
 import {EmailStateBadge} from "@/pages/auth/EmailStateBadge.tsx";
+import {toast} from "sonner";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -30,7 +31,6 @@ export default function SignUp() {
     //회원가입 이벤트
     const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(1);
         const formData = new FormData(event.currentTarget);
         const validationResult: ValidationResult = signUpResolver({
             email: formData.get('email') as string || '',
@@ -41,7 +41,6 @@ export default function SignUp() {
             addr: formData.get('addr') as string || '',
             phoneNumber: formData.get('phoneNumber') as string || ''
         })
-
 
         if (!validationResult.type) {
             // form안의 input 요소들의 name으로 찾아 포커싱
@@ -56,18 +55,19 @@ export default function SignUp() {
         if(checkEmailCnt !== 0) {
             setMessage('이메일 중복체크를 해주시기 바랍니다.');
             setShow(true);
+            return;
         }
+        const deleteKeySet = new Set<string>();
+        deleteKeySet.add('rePassword');
 
-        // TODO : 회원가입 처리
-        publicApiClient.post({reqUrl: '/membersInfo', body: JSON.stringify(formData)}).then(res => {
-            console.log(res);
+        publicApiClient.post({ reqUrl: '/membersInfo', body: formToObjectData(formData,deleteKeySet) }).then(res => {
+            toast.success("OOO님 반갑습니다.\n잠시 후 로그인페이지로 이동합니다.");
+            console.log(res)
         });
-
-
     }
 
+    // 이메일 중복체크
     const checkEmailDuplicate = () => {
-        console.log(2);
         if(!emailRef.current) {
             return;
         }
@@ -84,18 +84,39 @@ export default function SignUp() {
             if(res){
                 setCheckEmailCnt(res.length);
             }
-
         })
 
     }
 
     return (
         <Card className="w-full max-w-lg p-5">
+
+            {/*<AlertDialog open={dialogOpen}>*/}
+            {/*    <AlertDialogContent size={'sm'}>*/}
+            {/*        <AlertDialogHeader>*/}
+            {/*            <AlertDialogMedia>*/}
+            {/*                <PartyPopper />*/}
+            {/*            </AlertDialogMedia>*/}
+            {/*            <AlertDialogTitle>{'OOO'}님 반갑습니다.</AlertDialogTitle>*/}
+            {/*            <AlertDialogDescription>*/}
+            {/*                3초 뒤 자동으로 로그인 창으로 넘어갑니다.*/}
+            {/*            </AlertDialogDescription>*/}
+            {/*        </AlertDialogHeader>*/}
+            {/*        <AlertDialogFooter>*/}
+            {/*            /!*<AlertDialogCancel onClick={()=> setDialogOpen(false)}>취소</AlertDialogCancel>*!/*/}
+            {/*            <AlertDialogAction onClick={()=> navigate('/login')}>로그인</AlertDialogAction>*/}
+            {/*        </AlertDialogFooter>*/}
+            {/*    </AlertDialogContent>*/}
+            {/*</AlertDialog>*/}
             <form onSubmit={handleSubmit}>
                 <FieldGroup>
                     <FieldSet>
                         <div className="flex justify-between">
                             <FieldLegend>회원가입</FieldLegend>
+                            <Button onClick={()=>
+                                toast.success("OOO님 반갑습니다.\n잠시 후 로그인페이지로 이동합니다.",
+                                    { position: "top-center" })}>
+                                alert Dialog</Button>
 
                             <Button type="button" variant="outline" size="icon" aria-label="Go Back"
                                     onClick={() => navigate('/login')}>
