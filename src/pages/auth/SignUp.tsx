@@ -45,7 +45,10 @@ export default function SignUp() {
             name: formData.get('name') as string || '',
             memberId: formData.get('memberId') as string || '',
             addr: formData.get('addr') as string || '',
-            phoneNumber: formData.get('phoneNumber') as string || ''
+            phoneNumber: formData.get('phoneNumber') as string || '',
+            createdAt : Date.now().toString(),
+            useYn : 'Y',
+            updateAt : null
         })
 
         if (!validationResult.type) {

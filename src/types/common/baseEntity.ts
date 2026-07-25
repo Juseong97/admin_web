@@ -1,8 +1,8 @@
 interface BaseEntity {
-    id : string | number,
-    createdAt : string,
-    updateAt : string,
-    useYn : string
+    id? : string | number | null,
+    createdAt? : string,
+    updateAt? : string | null,
+    useYn? : string
 }
 
 interface ValidationResult {
