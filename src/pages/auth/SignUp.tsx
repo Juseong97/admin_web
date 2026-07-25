@@ -11,8 +11,7 @@ import {signUpResolver} from "@/services/auth/signUpResolver.ts";
 import {checkEmailFormat, formToObjectData, isEmpty, telNumberFormatter} from "@/utils/cmmnUtils.ts";
 import {publicApiClient} from "@/services/api/publicApiClient.ts";
 import {EmailStateBadge} from "@/pages/auth/EmailStateBadge.tsx";
-import {toast} from "sonner";
-import globalStore from "@/services/global/globalStore.ts";
+import {toastHandler} from "@/utils/toastHandler.ts";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -21,8 +20,8 @@ export default function SignUp() {
     const [requiredElementNm, setRequiredElementNm] = useState('');
     const [checkEmailCnt, setCheckEmailCnt] = useState(-1);
     const emailRef = useRef<HTMLInputElement>(null);
-    const [userVo, setUserVo] = useState<Record<'name'| 'email', string>>({name : '김주성', email : ''});
-    // 타이핑 시 메세지 숨김처리
+    // const [userVo, setUserVo] = useState<Record<'name' | 'email', string>>({name: '김주성', email: ''});
+    // 타이핑 시 메세지 숨김처리 및 이메일 체크 카운트 초기화
     const typingDetector = () => {
         if (isShow) {
             setShow(false);
@@ -31,9 +30,14 @@ export default function SignUp() {
     }
 
     //회원가입 이벤트
-    const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
+        const formElement = event.currentTarget.closest('form');
+
+        if(!formElement) {
+            return;
+        }
+        const formData = new FormData(formElement);
         const validationResult: ValidationResult = signUpResolver({
             email: formData.get('email') as string || '',
             password: formData.get('password') as string || '',
@@ -46,7 +50,7 @@ export default function SignUp() {
 
         if (!validationResult.type) {
             // form안의 input 요소들의 name으로 찾아 포커싱
-            (event.currentTarget.elements.namedItem(validationResult.target) as HTMLInputElement)?.focus();
+            (formElement.elements.namedItem(validationResult.target) as HTMLInputElement)?.focus();
 
             setMessage(validationResult.message);
             setShow(!validationResult.type);
@@ -54,71 +58,62 @@ export default function SignUp() {
             return;
         }
 
-        if(checkEmailCnt !== 0) {
+        if (checkEmailCnt !== 0) {
             setMessage('이메일 중복체크를 해주시기 바랍니다.');
             setShow(true);
             return;
         }
+
         const deleteKeySet = new Set<string>();
         deleteKeySet.add('rePassword');
 
-        setUserVo({
-            name : (formData.get('name') as string) || '',
-            email : (formData.get('email') as string) || ''
-        })
+        const signUpName = (formData.get('name') as string || '').trim();
 
-        publicApiClient.post({ reqUrl: '/membersInfo', body: formToObjectData(formData,deleteKeySet) }).then(res => {
-            toast.success("OOO님 반갑습니다.");
-            setTimeout(()=>{
+         toastHandler.promise({
+            promiseFn: () => publicApiClient
+                .post({
+                    reqUrl: '/membersInfo',
+                    body: formToObjectData(formData, deleteKeySet)
+                })
+                .then(res => {
+                    console.log(res);
+                    return res;
+                }),
+            successMsg: `${signUpName}님 회원가입에 성공하셨습니다.`,
+            errorMsg: '회원가입에 실패하였습니다.',
+            callback: (res) => {
+                console.log(res)
+                // alert(res.email);
                 navigate('/login');
-            },1500)
-            console.log(res)
+            },
         });
     }
 
     // 이메일 중복체크
     const checkEmailDuplicate = () => {
-        if(!emailRef.current) {
+        if (!emailRef.current) {
             return;
         }
 
-        if(isEmpty(emailRef.current.value)) {
-            return ;
-        }
-
-        if(!checkEmailFormat(emailRef.current.value)) {
+        if (isEmpty(emailRef.current.value)) {
             return;
         }
 
-        publicApiClient.get({reqUrl: '/membersInfo', queryString : {'email' : emailRef.current.value }}).then(res => {
-            globalStore.getState().setDialogShow(true);
-            if(res){
+        if (!checkEmailFormat(emailRef.current.value)) {
+            return;
+        }
+
+        publicApiClient.get({reqUrl: '/membersInfo', queryString: {'email': emailRef.current.value}}).then(res => {
+            if (res) {
                 setCheckEmailCnt(res.length);
+                typingDetector();
             }
-
-            toast.promise(new Promise<{name : string}>
-                (
-                    (resolve, reject) => {
-                        setTimeout(() => {
-                            globalStore.getState().setDialogShow(false);
-                            const rate50 = Math.random() > 0.5;
-                            return rate50 ? resolve({name : userVo.name}) : reject(new Error('로그인에 실패하였습다.'));
-                        }, 2000)
-                    }
-                )
-                ,{
-                    loading : "회원가입 처리중 입니다.",
-                    success : ({name}) => `${name}님 회원가입에 성공하셨습니다.` ,
-                    error : (error : Error) => error.message,
-                    position : "top-center"
-                }
-            )
         })
     }
 
     return (
         <Card className="w-full max-w-lg p-5">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e)=> e.preventDefault()}>
                 <FieldGroup>
                     <FieldSet>
                         <div className="flex justify-between">
@@ -152,14 +147,17 @@ export default function SignUp() {
                         <FieldGroup>
                             <Field>
                                 <div className="flex justify-between">
-                                    <FieldLabel htmlFor={"email"}>이메일<span className="text-destructive">*</span></FieldLabel>
-                                    <EmailStateBadge count={checkEmailCnt} />
+                                    <FieldLabel htmlFor={"email"}>이메일<span
+                                        className="text-destructive">*</span></FieldLabel>
+                                    <EmailStateBadge count={checkEmailCnt}/>
                                 </div>
 
                                 <div className="flex justify-end gap-1">
-                                    <Input name={"email"} type={"text"} placeholder="name@example.com" maxLength={50}
+                                    <Input name={"email"} type={"text"} placeholder="name@example.com"
+                                           maxLength={50}
                                            aria-invalid={requiredElementNm === 'email'}
-                                           onInput={typingDetector} ref={emailRef}/>
+                                           onInput={typingDetector} ref={emailRef}
+                                           onChange={() => setCheckEmailCnt(-1)}/>
                                     <Button type="button" onClick={checkEmailDuplicate}>중복체크</Button>
                                 </div>
                             </Field>
@@ -183,7 +181,8 @@ export default function SignUp() {
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor={"phoneNumber"}>휴대폰번호</FieldLabel>
-                                <Input name={"phoneNumber"} type={"tel"} placeholder={'- 을 제외한 숫자만 입력'} maxLength={11}
+                                <Input name={"phoneNumber"} type={"tel"} placeholder={'- 을 제외한 숫자만 입력'}
+                                       maxLength={11}
                                        onInput={(event) => telNumberFormatter(event)}/>
                             </Field>
                             <Field>
@@ -208,8 +207,9 @@ export default function SignUp() {
                         </FieldGroup>
                     </FieldSet>
                 </FieldGroup>
-                <div className="m-2 text-red-600" style={{visibility: isShow ? 'visible' : 'hidden'}}>{message}</div>
-                <Button type="submit" className="w-full mt-2">
+                <div className="m-2 text-red-600"
+                     style={{visibility: isShow ? 'visible' : 'hidden'}}>{message}</div>
+                <Button type="button" onClick={handleSubmit} className="w-full mt-2">
                     회원가입
                 </Button>
             </form>

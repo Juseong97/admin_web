@@ -34,8 +34,10 @@ const formToObjectData = (formData : FormData, removeKey? : Set<string> ) : obje
     return Object.fromEntries(formData);
 }
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export {isEmpty,isEmptyFile,checkEmailFormat, telNumberFormatter, formToObjectData}
+
+export {isEmpty,isEmptyFile,checkEmailFormat, telNumberFormatter, formToObjectData, delay}
 
 
 

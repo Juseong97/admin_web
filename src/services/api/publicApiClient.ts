@@ -1,5 +1,4 @@
 import apiErrorHandler from '@/services/api/apiErrorHandler.ts';
-import requestWrapper from "@/services/api/requestWrapper.ts";
 
 /*인증을 받지 않는 Api 통신의 클라이언트*/
 export interface publicRequestEntity {
@@ -34,7 +33,7 @@ export const publicApiClient = {
         };
         
         try {
-            const response = await requestWrapper(`${BASE_URL}${req.reqUrl}${bindingQuery}`,reqOptions);
+            const response = await fetch(`${BASE_URL}${req.reqUrl}${bindingQuery}` ,reqOptions);
             return await apiErrorHandler(response);
         } catch (error){
             if(error instanceof Error){
@@ -60,7 +59,7 @@ export const publicApiClient = {
         }
 
         try {
-            const response = await requestWrapper(`${BASE_URL}${req.reqUrl}`, reqOptions);
+            const response = await fetch(`${BASE_URL}${req.reqUrl}` ,reqOptions);
             return await apiErrorHandler(response);
         } catch (error){
             if(error instanceof Error){

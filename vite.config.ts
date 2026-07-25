@@ -12,7 +12,10 @@ export default defineConfig({
   //서버 포트 설정
   server : {
     // port : 5173,
-    strictPort : true
+    strictPort : true,
+      watch : {
+        ignored : ['**/repository.json'],
+      }
   },
 
   resolve: {
