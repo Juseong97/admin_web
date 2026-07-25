@@ -1,5 +1,6 @@
 import {toast} from "sonner";
 import globalStore from "@/services/global/globalStore.ts";
+import {delay} from "@/utils/cmmnUtils.ts";
 
 interface ToastHandlerParams<T> {
     promiseFn : () => Promise<T>, /*실행 함수*/
@@ -8,7 +9,6 @@ interface ToastHandlerParams<T> {
     errorMsg? : string,
     callback? : (data : Promise<T> | T) => void,
 }
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve,ms));
 export const toastHandler = {
     promise : async <T>({promiseFn, loadingMsg = '데이터 처리중입니다...', successMsg, errorMsg ='오류가 발생 했습니다.', callback} : ToastHandlerParams<T>) => {
         /*로딩바*/
