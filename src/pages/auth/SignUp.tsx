@@ -12,6 +12,7 @@ import {checkEmailFormat, formToObjectData, isEmpty, telNumberFormatter} from "@
 import {publicApiClient} from "@/services/api/publicApiClient.ts";
 import {EmailStateBadge} from "@/pages/auth/EmailStateBadge.tsx";
 import {toast} from "sonner";
+import globalStore from "@/services/global/globalStore.ts";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function SignUp() {
     const [requiredElementNm, setRequiredElementNm] = useState('');
     const [checkEmailCnt, setCheckEmailCnt] = useState(-1);
     const emailRef = useRef<HTMLInputElement>(null);
+    const [userVo, setUserVo] = useState<Record<'name'| 'email', string>>({name : '김주성', email : ''});
     // 타이핑 시 메세지 숨김처리
     const typingDetector = () => {
         if (isShow) {
@@ -60,8 +62,16 @@ export default function SignUp() {
         const deleteKeySet = new Set<string>();
         deleteKeySet.add('rePassword');
 
+        setUserVo({
+            name : (formData.get('name') as string) || '',
+            email : (formData.get('email') as string) || ''
+        })
+
         publicApiClient.post({ reqUrl: '/membersInfo', body: formToObjectData(formData,deleteKeySet) }).then(res => {
-            toast.success("OOO님 반갑습니다.\n잠시 후 로그인페이지로 이동합니다.");
+            toast.success("OOO님 반갑습니다.");
+            setTimeout(()=>{
+                navigate('/login');
+            },1500)
             console.log(res)
         });
     }
@@ -81,42 +91,58 @@ export default function SignUp() {
         }
 
         publicApiClient.get({reqUrl: '/membersInfo', queryString : {'email' : emailRef.current.value }}).then(res => {
+            globalStore.getState().setDialogShow(true);
             if(res){
                 setCheckEmailCnt(res.length);
             }
-        })
 
+            toast.promise(new Promise<{name : string}>
+                (
+                    (resolve, reject) => {
+                        setTimeout(() => {
+                            globalStore.getState().setDialogShow(false);
+                            const rate50 = Math.random() > 0.5;
+                            return rate50 ? resolve({name : userVo.name}) : reject(new Error('로그인에 실패하였습다.'));
+                        }, 2000)
+                    }
+                )
+                ,{
+                    loading : "회원가입 처리중 입니다.",
+                    success : ({name}) => `${name}님 회원가입에 성공하셨습니다.` ,
+                    error : (error : Error) => error.message,
+                    position : "top-center"
+                }
+            )
+        })
     }
 
     return (
         <Card className="w-full max-w-lg p-5">
-
-            {/*<AlertDialog open={dialogOpen}>*/}
-            {/*    <AlertDialogContent size={'sm'}>*/}
-            {/*        <AlertDialogHeader>*/}
-            {/*            <AlertDialogMedia>*/}
-            {/*                <PartyPopper />*/}
-            {/*            </AlertDialogMedia>*/}
-            {/*            <AlertDialogTitle>{'OOO'}님 반갑습니다.</AlertDialogTitle>*/}
-            {/*            <AlertDialogDescription>*/}
-            {/*                3초 뒤 자동으로 로그인 창으로 넘어갑니다.*/}
-            {/*            </AlertDialogDescription>*/}
-            {/*        </AlertDialogHeader>*/}
-            {/*        <AlertDialogFooter>*/}
-            {/*            /!*<AlertDialogCancel onClick={()=> setDialogOpen(false)}>취소</AlertDialogCancel>*!/*/}
-            {/*            <AlertDialogAction onClick={()=> navigate('/login')}>로그인</AlertDialogAction>*/}
-            {/*        </AlertDialogFooter>*/}
-            {/*    </AlertDialogContent>*/}
-            {/*</AlertDialog>*/}
             <form onSubmit={handleSubmit}>
                 <FieldGroup>
                     <FieldSet>
                         <div className="flex justify-between">
                             <FieldLegend>회원가입</FieldLegend>
-                            <Button onClick={()=>
-                                toast.success("OOO님 반갑습니다.\n잠시 후 로그인페이지로 이동합니다.",
-                                    { position: "top-center" })}>
-                                alert Dialog</Button>
+                            {/*<Button  type='button' onClick={()=> {*/}
+                            {/*    toast.promise(new Promise<{message : string}>*/}
+                            {/*        (*/}
+                            {/*            (resolve, reject) => {*/}
+                            {/*                setTimeout(() => {*/}
+                            {/*                    const rate50 = Math.random() > 0.5;*/}
+                            {/*                    globalStore.getState().setDialogShow(false);*/}
+                            {/*                    return rate50 ? resolve({message : userVo.name}) : reject(new Error('로그인에 실패하였습디.'));*/}
+                            {/*                }, 2000)*/}
+                            {/*            }*/}
+                            {/*        )*/}
+                            {/*        ,{*/}
+                            {/*            loading : "회원가입 처리중 입니다.",*/}
+                            {/*            success : ({message}) => `${message}님 회원가입에 성공하셨습니다.` ,*/}
+                            {/*            error : (error : Error) => error.message,*/}
+                            {/*            position : "top-center",*/}
+                            {/*        }*/}
+                            {/*    )*/}
+                            {/*}}>*/}
+                            {/*    alert Dialog</Button>*/}
 
                             <Button type="button" variant="outline" size="icon" aria-label="Go Back"
                                     onClick={() => navigate('/login')}>
