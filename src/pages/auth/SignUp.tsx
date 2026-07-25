@@ -30,7 +30,7 @@ export default function SignUp() {
     }
 
     //회원가입 이벤트
-    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formElement = event.currentTarget.closest('form');
 
@@ -53,7 +53,7 @@ export default function SignUp() {
 
         if (!validationResult.type) {
             // form안의 input 요소들의 name으로 찾아 포커싱
-            (formElement.elements.namedItem(validationResult.target) as HTMLInputElement)?.focus();
+            (event.currentTarget.elements.namedItem(validationResult.target) as HTMLInputElement)?.focus();
 
             setMessage(validationResult.message);
             setShow(!validationResult.type);
@@ -116,7 +116,7 @@ export default function SignUp() {
 
     return (
         <Card className="w-full max-w-lg p-5">
-            <form onSubmit={(e)=> e.preventDefault()}>
+            <form onSubmit={handleSubmit}>
                 <FieldGroup>
                     <FieldSet>
                         <div className="flex justify-between">
@@ -212,7 +212,7 @@ export default function SignUp() {
                 </FieldGroup>
                 <div className="m-2 text-red-600"
                      style={{visibility: isShow ? 'visible' : 'hidden'}}>{message}</div>
-                <Button type="button" onClick={handleSubmit} className="w-full mt-2">
+                <Button type="submit" className="w-full mt-2">
                     회원가입
                 </Button>
             </form>
