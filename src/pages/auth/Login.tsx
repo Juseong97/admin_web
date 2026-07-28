@@ -9,6 +9,7 @@ import {publicApiClient} from "@/services/api/publicApiClient.ts";
 import userTokenHandler from "@/services/api/userTokenHandler.ts";
 import {useNavigate} from "react-router-dom";
 import type {ValidationResult} from "@/types/common/baseEntity.ts";
+import {toastHandler} from "@/utils/toastHandler.ts";
 
 export default function Register() {
     const [isMsgShow, setMsgShow] = useState(false);
@@ -55,7 +56,7 @@ export default function Register() {
                     userTokenHandler.setToken(data[0].id);
                 }
 
-                navigate('/main');
+                navigate('/admin');
             }).catch((error) =>{
                 alert(error);
             })
@@ -79,10 +80,10 @@ export default function Register() {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                <a href="/src/pages/auth/SignUp"
+                                <button type="button" onClick={()=> toastHandler.info('해당 기능은 아직 이용하실 수 없습니다.')}
                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                                    비밀번호를 잊어버리셨습니까?
-                                </a>
+                                    <a>비밀번호를 잊어버리셨습니까?</a>
+                                </button>
                             </div>
                             <Input name="password" type="password" placeholder="********" onInput={typingDetector}/>
                         </div>

@@ -22,6 +22,25 @@
       "id": "T5gNDQNj4qY"
     }
   ],
-  "menuList": {},
+  "menuList": [
+    {
+      "menuId" : "M0099",
+      "parentId" : null,
+      "menuNm" : "관리자 페이지",
+      "role" : ["AUTH01"],
+      "desc" : "관리자 페이지입니다.",
+      "sortNum" : 1,
+      "useYn" : "Y"
+    },
+    {
+      "menuId" : "M00990001",
+      "parentId" : "M0099",
+      "menuNm" : "메뉴관리",
+      "role" : ["AUTH01","AUTH0101"],
+      "desc" : "메뉴 관리",
+      "sortNum" : 1,
+      "useYn" : "Y"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
