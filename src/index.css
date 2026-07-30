@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../src";
 @plugin "tailwindcss-animate";
 
 /* 2. 다크모드 선택자 설정 (Shadcn 기본값) */
