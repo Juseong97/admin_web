@@ -32,7 +32,7 @@ export const authApiClient = {
 
         //token 확인
         const jToken = userTokenHandler.getToken();
-
+        // alert(jToken);
         //unknown 일 경우 꼭 type 검사 또는 대체값을 넣기
         const bindingQuery = Object.entries(req.queryString || {}).map(([key,value],idx) => {
             let preFix = ''

@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import LayoutSideBar from "@/pages/common/LayoutSideBar.tsx";
+import LayoutSideBar from "@/pages/common/sidebar/LayoutSideBar.tsx";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 

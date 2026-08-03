@@ -36,9 +36,40 @@
       "menuId" : "M00990001",
       "parentId" : "M0099",
       "menuNm" : "메뉴관리",
+      "path" : "/menuInfo",
       "role" : ["AUTH01","AUTH0101"],
       "desc" : "메뉴 관리",
       "sortNum" : 1,
+      "useYn" : "Y"
+    },
+    {
+      "menuId": "M00990002",
+      "parentId": "M0099",
+      "menuNm": "권한관리",
+      "path": "/authInfo",
+      "role": ["AUTH01", "AUTH0101"],
+      "desc": "권한 관리",
+      "sortNum": 3,
+      "useYn": "Y"
+    },
+    {
+      "menuId" : "M00990003",
+      "parentId" : "M0099",
+      "menuNm" : "사용자 관리",
+      "path" : "/usersInfo",
+      "role" : ["AUTH01","AUTH0101"],
+      "desc" : "권한 관리",
+      "sortNum" : 2,
+      "useYn" : "Y"
+    },
+    {
+      "menuId" : "M00990004",
+      "parentId" : "M0099",
+      "menuNm" : "ABC",
+      "path" : "/usersInfo",
+      "role" : ["AUTH01","AUTH0101"],
+      "desc" : "권한 관리",
+      "sortNum" : 2,
       "useYn" : "Y"
     }
   ],

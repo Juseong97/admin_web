@@ -1,19 +1,28 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupLabel,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
     SidebarRail
 } from "@/components/ui/sidebar.tsx";
-import {AppWindowMac, ChevronDownIcon, ChevronRight, Menu, User2} from "lucide-react";
+import {AppWindowMac, ChevronRight, Menu, User2} from "lucide-react";
 import {Link} from "react-router-dom";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.tsx";
+import menuService from "@/services/admin/menuService.ts";
+import MenuContents from "@/pages/common/sidebar/MenuContents.tsx";
 
 export default function LayoutSideBar({...props}: React.ComponentProps<typeof Sidebar>) {
     // const navigate = useNavigate();
+    const menuList = menuService.makeContent();
+
     return (
         <Sidebar collapsible="icon" {...props}>
             {/*헤더*/}
@@ -48,6 +57,7 @@ export default function LayoutSideBar({...props}: React.ComponentProps<typeof Si
                             defaultOpen={true}
                             className="group/collapsible"
                         >
+                            <MenuContents sortedMenuList={menuList}/>
                             <SidebarMenuItem>
                                 <CollapsibleTrigger asChild className="w-full">
                                     <SidebarMenuButton >

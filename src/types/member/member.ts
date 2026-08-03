@@ -12,4 +12,4 @@ interface Member {
 
 }
 
-export type { Member};
+export type {Member};
