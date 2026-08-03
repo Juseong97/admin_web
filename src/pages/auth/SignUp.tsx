@@ -100,12 +100,11 @@ export default function SignUp() {
 
         if (isEmpty(emailRef.current.value)) {
             toastHandler.error('이메일을 입력해주시기 바랍니다.');
-
             return;
         }
 
         if (!checkEmailFormat(emailRef.current.value)) {
-            toastHandler.warning('이메일을 입력해주시기 바랍니다.');
+            toastHandler.warning('옳바른 이메일 양식이 아닙니다.');
             return;
         }
 

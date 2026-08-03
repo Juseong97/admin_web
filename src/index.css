@@ -1,17 +1,20 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+
 @import "tailwindcss";
 @source "../src";
 @plugin "tailwindcss-animate";
 
-/* 2. 다크모드 선택자 설정 (Shadcn 기본값) */
+/* 1. 다크모드 선택자 설정 (Shadcn 기본값) */
 @custom-variant dark (&:is(.dark *));
 
-/* 3. 전역 스타일 테마 정의 (Tailwind v4 확장 문법) */
+/* 2. 전역 스타일 테마 정의 (Tailwind v4 확장) */
 @theme {
-  /* 폰트 설정: Geist를 메인으로 하고 한글 밸런스를 위해 Pretendard 조합 */
-  --font-sans: 'Geist Variable', "Pretendard", system-ui, sans-serif;
+  /* 폰트 설정 */
+  --font-sans: 'Geist', 'Pretendard Variable', -apple-system, sans-serif;
   --font-heading: var(--font-sans);
 
-  /* 테마 색상 시스템 매핑 */
+  /* 시맨틱 테마 색상 매핑 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -31,7 +34,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* 사이드바 테마 확장 */
+  /* 사이드바 전용 테마 매핑 (oklch 완벽 대응) */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -41,14 +44,14 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* 데이터 시각화 차트 테마 확장 */
+  /* 데이터 시각화 차트 테마 매핑 */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  /* 모서리 둥글기(Radius) 배율 세팅 */
+  /* Radius(모서리 둥글기) 비율 세팅 */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -58,7 +61,7 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* 4. 라이트 모드 실제 색상 데이터 (눈이 편안한 고급 oklch 포맷) */
+/* 3. 라이트 모드 실제 색상 데이터 (oklch 통일 및 명도 최적화) */
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -78,23 +81,27 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
   --radius: 0.625rem;
+
+  /* 🟢 사이드바 변수 (전부 oklch로 정돈 및 선명도 수정) */
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.261 0 0);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent: oklch(0.965 0 0);             /* 버튼 호버 배경 (은은함) */
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: oklch(0.88 0 0);              /* 🟢 레일 호버선이 선명하게 보이도록 고침 */
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* 5. 다크 모드 실제 색상 데이터 */
+/* 4. 다크 모드 실제 색상 데이터 */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -114,32 +121,43 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
+  /* 🟢 다크모드 사이드바 변수 */
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-border: oklch(0.32 0 0);
   --sidebar-ring: oklch(0.556 0 0);
+
 }
 
-/* 6. 공통 HTML 뼈대 스타일 (상속 레이어) */
+/* 5. 공통 HTML 기본 레이어 (독립 분리) */
 @layer base {
-  html {
-    font-family: var(--font-sans);
+  /* 💡 :root에 CSS 변수를 확실하게 지정해줍니다 */
+  :root {
+    --font-sans:  'Geist', 'Pretendard Variable', -apple-system, sans-serif;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-sans);
+    font-family: 'Geist', 'Pretendard Variable', -apple-system, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    -webkit-font-smoothing: antialiased; /* 글꼴 외곽선 부드럽게 보정 */
+    -webkit-font-smoothing: antialiased;
   }
+
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
